@@ -1,0 +1,20 @@
+{
+  "name": "phoria.js fork",
+  "version": "0.9.16",
+  "homepage": "https://github.com/ryan0319/phoria.js",
+  "authors": [
+    "Ryan Russell <ryan@therefore.ca>"
+  ],
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
