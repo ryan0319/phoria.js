@@ -9,6 +9,7 @@
 define(function(require, exports, module) {
   'use strict';
 
+  var Constants = require('./Constants');
   var DistantLight = require('./DistantLight');
   var GlMatrix = require('./GlMatrix');
 
@@ -217,7 +218,7 @@ define(function(require, exports, module) {
             var x = x2 - x1, y = y2 - y1,
                 det = x * x + y * y, idet;
 
-            if (det === 0) det === Phoria.EPSILON;
+            if (det === 0) det === Constants.EPSILON;
 
             idet = pixels / Math.sqrt(det);
 

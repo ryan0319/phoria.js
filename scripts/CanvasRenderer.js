@@ -11,6 +11,7 @@ define(function(require, exports, module) {
 
    var Util = require('./Util');
    var Renderer = require('./Renderer');
+   var GlMatrix = require('./GlMatrix');
 
    /**
     * CanvasRenderer will output the scene onto the supplied canvas context using the 2D drawing context. Standard canvas
@@ -210,7 +211,7 @@ define(function(require, exports, module) {
          if (obj.style.shademode === "lightsource")
          {
             var edgea = obj._worldcoords[edge.a], edgeb = obj._worldcoords[edge.b],
-                position = vec3.fromValues((edgea[0] + edgeb[0]) * 0.5, (edgea[1] + edgeb[1]) * 0.5, (edgea[2] + edgeb[2]) * 0.5);
+                position = GlMatrix.vec3.fromValues((edgea[0] + edgeb[0]) * 0.5, (edgea[1] + edgeb[1]) * 0.5, (edgea[2] + edgeb[2]) * 0.5);
             var rgb = this.calcPositionBrightness(position, scene.lights);
             ctx.beginPath();
             ctx.strokeStyle = "rgb(" + Math.min(Math.ceil(rgb[0] * obj.style.color[0]),255) + "," +

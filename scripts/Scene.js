@@ -472,7 +472,7 @@ define(function(require, exports, module) {
                      w = vec[3];
                      
                      // stop divide by zero
-                     if (w === 0) w = Phoria.EPSILON;
+                     if (w === 0) w = Constants.EPSILON;
                      
                      // is this vertex outside the clipping boundries for the perspective frustum?
                      objClip += (obj._clip[v] = (vec[0] > w+clipOffset || vec[0] < -w-clipOffset ||

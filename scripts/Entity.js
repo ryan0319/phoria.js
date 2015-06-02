@@ -319,9 +319,9 @@ define(function(require, exports, module) {
             axisEntity.disabled = true;
             return axisEntity;
          };
-         debugEntity.children.push(fnCreateAxis("X", vec3.fromValues(1,0,0), [255,0,0]));
-         debugEntity.children.push(fnCreateAxis("Y", vec3.fromValues(0,1,0), [0,255,0]));
-         debugEntity.children.push(fnCreateAxis("Z", vec3.fromValues(0,0,1), [0,0,255]));
+         debugEntity.children.push(fnCreateAxis("X", GlMatrix.vec3.fromValues(1,0,0), [255,0,0]));
+         debugEntity.children.push(fnCreateAxis("Y", GlMatrix.vec3.fromValues(0,1,0), [0,255,0]));
+         debugEntity.children.push(fnCreateAxis("Z", GlMatrix.vec3.fromValues(0,0,1), [0,0,255]));
       }
 
       // set the config
