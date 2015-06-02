@@ -118,7 +118,7 @@ define(function(require, exports, module) {
 
       scaleN: function scale(n)
       {
-         GlMatrix.mat4.scale(this.matrix, this.matrix, vec3.fromValues(n,n,n));
+         GlMatrix.mat4.scale(this.matrix, this.matrix, GlMatrix.vec3.fromValues(n,n,n));
          return this;
       },
 
@@ -166,19 +166,19 @@ define(function(require, exports, module) {
 
       translateX: function translateX(n)
       {
-         GlMatrix.mat4.translate(this.matrix, this.matrix, vec3.fromValues(n,0,0));
+         GlMatrix.mat4.translate(this.matrix, this.matrix, GlMatrix.vec3.fromValues(n,0,0));
          return this;
       },
 
       translateY: function translateY(n)
       {
-         GlMatrix.mat4.translate(this.matrix, this.matrix, vec3.fromValues(0,n,0));
+         GlMatrix.mat4.translate(this.matrix, this.matrix, GlMatrix.vec3.fromValues(0,n,0));
          return this;
       },
 
       translateZ: function translateZ(n)
       {
-         GlMatrix.mat4.translate(this.matrix, this.matrix, vec3.fromValues(0,0,n));
+         GlMatrix.mat4.translate(this.matrix, this.matrix, GlMatrix.vec3.fromValues(0,0,n));
          return this;
       },
       
