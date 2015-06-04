@@ -9,6 +9,9 @@ define(function(require, exports, module) {
   'use strict';
 
   var Util = require('./Util');
+  var BaseLight = require('./BaseLight');
+  var PositionalAspect = require('./PositionalAspect');
+  var BaseEntity = require('./BaseEntity');
 
   /**
   * PointLight models a light that has a position within the scene and from which light eminates in all directions
@@ -16,7 +19,7 @@ define(function(require, exports, module) {
   * attentuation types are provided such as none (no fall-off over distance), linear (fall-off directly related to the
   * distance from the light) and squared (fall-off related to distance squared).
   */
-  PointLight = function()
+  var PointLight = function()
   {
     PointLight.superclass.constructor.call(this);
 
@@ -54,7 +57,7 @@ define(function(require, exports, module) {
     return e;
   };
 
-  Util.extend(PointLight, Phoria.BaseLight, {
+  Util.extend(PointLight, BaseLight, {
     // falloff
     attenuation: 0,
     attenuationFactor: null,
@@ -65,7 +68,7 @@ define(function(require, exports, module) {
       this.updatePosition(matLocal);
     }
   });
-  Phoria.Util.augment(PointLight, Phoria.PositionalAspect);
+  Util.augment(PointLight, PositionalAspect);
 
   module.exports = PointLight;
 });

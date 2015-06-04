@@ -18,6 +18,7 @@ define(function(require, exports, module) {
    {
       // the model matrix for this object - live manipulation functions below
       this.matrix = GlMatrix.mat4.create();
+      this.savedStateMatrix;
       this.children = [];
       
       return this;
@@ -98,50 +99,58 @@ define(function(require, exports, module) {
          return this;
       },
 
-      invert: function invert()
+      invert: function invert(saveState)
       {
+         if(saveState) this.saveState();
          GlMatrix.mat4.invert(this.matrix, this.matrix);
          return this;
       },
 
-      multiply: function multiply(m)
+      multiply: function multiply(m, saveState)
       {
+         if(saveState) this.saveState();
          GlMatrix.mat4.multiply(this.matrix, this.matrix, m);
          return this;
       },
 
-      scale: function scale(vec)
+      scale: function scale(vec, saveState)
       {
+         if(saveState) this.saveState();
          GlMatrix.mat4.scale(this.matrix, this.matrix, vec);
          return this;
       },
 
-      scaleN: function scale(n)
+      scaleN: function scale(n, saveState)
       {
+         if(saveState) this.saveState();
          GlMatrix.mat4.scale(this.matrix, this.matrix, GlMatrix.vec3.fromValues(n,n,n));
          return this;
       },
 
-      rotate: function rotate(rad, axis)
+      rotate: function rotate(rad, axis, saveState)
       {
+         if(saveState) this.saveState();
          GlMatrix.mat4.rotate(this.matrix, this.matrix, rad, axis);
          return this;
       },
 
-      rotateX: function rotateX(rad)
+      rotateX: function rotateX(rad, saveState)
       {
+         if(saveState) this.saveState();
          GlMatrix.mat4.rotateX(this.matrix, this.matrix, rad);
          return this;
       },
 
-      rotateY: function rotateY(rad)
+      rotateY: function rotateY(rad, saveState)
       {
+         if(saveState) this.saveState();
          GlMatrix.mat4.rotateY(this.matrix, this.matrix, rad);
          return this;
       },
 
-      rotateZ: function rotateZ(rad)
+      rotateZ: function rotateZ(rad, saveState)
       {
+         if(saveState) this.saveState();
          GlMatrix.mat4.rotateZ(this.matrix, this.matrix, rad);
          return this;
       },
@@ -158,26 +167,30 @@ define(function(require, exports, module) {
          GlMatrix.mat4.multiply(this.matrix, this.matrix, m);
       },
 
-      translate: function translate(vec)
+      translate: function translate(vec, saveState)
       {
+         if(saveState) this.saveState();
          GlMatrix.mat4.translate(this.matrix, this.matrix, vec);
          return this;
       },
 
-      translateX: function translateX(n)
+      translateX: function translateX(n, saveState)
       {
+         if(saveState) this.saveState();
          GlMatrix.mat4.translate(this.matrix, this.matrix, GlMatrix.vec3.fromValues(n,0,0));
          return this;
       },
 
-      translateY: function translateY(n)
+      translateY: function translateY(n, saveState)
       {
+         if(saveState) this.saveState();
          GlMatrix.mat4.translate(this.matrix, this.matrix, GlMatrix.vec3.fromValues(0,n,0));
          return this;
       },
 
-      translateZ: function translateZ(n)
+      translateZ: function translateZ(n, saveState)
       {
+         if(saveState) this.saveState();
          GlMatrix.mat4.translate(this.matrix, this.matrix, GlMatrix.vec3.fromValues(0,0,n));
          return this;
       },
@@ -187,9 +200,21 @@ define(function(require, exports, module) {
          return GlMatrix.mat4.determinant(this.matrix);
       },
       
-      transpose: function transpose()
+      transpose: function transpose(saveState)
       {
+         if(saveState) this.saveState();
          GlMatrix.mat4.transpose(this.matrix, this.matrix);
+         return this;
+      },
+
+      restoreSavedState: function restoreSavedState() {
+         if(!!this.savedStateMatrix)
+           this.matrix = GlMatrix.mat4.clone(this.savedStateMatrix);
+         return this;
+      },
+
+      saveState: function saveState() {
+         this.savedStateMatrix = GlMatrix.mat4.clone(this.matrix);
          return this;
       }
    };

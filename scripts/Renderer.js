@@ -11,6 +11,7 @@ define(function(require, exports, module) {
 
   var Constants = require('./Constants');
   var DistantLight = require('./DistantLight');
+  var PointLight = require('./PointLight');
   var GlMatrix = require('./GlMatrix');
 
    /**
@@ -26,7 +27,7 @@ define(function(require, exports, module) {
        * Sort the list of objects in the scene by average Z coordinate. Prepares the flattened render
        * list to be rendered object by object using the painters algorithm.
        * 
-       * @param scene {Phoria.Scene}
+       * @param scene {Scene}
        */
       sortObjects: function sortObjects(scene)
       {
@@ -64,8 +65,8 @@ define(function(require, exports, module) {
        * 
        * @param position {vec3}        Position of the source polygon e.g. vertex or average poly point
        * @param normal {vec3}          Normal to calculate brightness against
-       * @param scene {Phoria.Scene}   Scene - lights and current camera position are queried from here
-       * @param obj {Phoria.Entity}    Object - style is used for diffuse/specular calculations
+       * @param scene {Scene}   Scene - lights and current camera position are queried from here
+       * @param obj {Entity}    Object - style is used for diffuse/specular calculations
        * @return RGB float component array for final brightness - values added to current values
        */
       calcNormalBrightness: function calcNormalBrightness(position, normal, scene, obj)
@@ -89,7 +90,7 @@ define(function(require, exports, module) {
                // combine light intensity with dot product and object diffuse value
                brightness = dotVP * light.intensity * obj.style.diffuse;
             }
-            else if (light instanceof Phoria.PointLight)
+            else if (light instanceof PointLight)
             {
                // Point lights have a position and a fall-off known as attenuation
                // distance falloff calculation - each light is additive to the total
@@ -158,7 +159,7 @@ define(function(require, exports, module) {
                // Distant lights have no "position"
                brightness = light.intensity;
             }
-            else if (light instanceof Phoria.PointLight)
+            else if (light instanceof PointLight)
             {
                // Point lights have a position and a fall-off known as attenuation
                var vecToLight = GlMatrix.vec3.subtract(GlMatrix.vec3.create(), position, light.worldposition),

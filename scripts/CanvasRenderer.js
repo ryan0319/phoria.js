@@ -12,6 +12,7 @@ define(function(require, exports, module) {
    var Util = require('./Util');
    var Renderer = require('./Renderer');
    var GlMatrix = require('./GlMatrix');
+   var Constants = require('./Constants');
 
    /**
     * CanvasRenderer will output the scene onto the supplied canvas context using the 2D drawing context. Standard canvas
@@ -153,7 +154,7 @@ define(function(require, exports, module) {
             case "plain":
             {
                ctx.beginPath();
-               ctx.arc(coord[0], coord[1], w, 0, Phoria.TWOPI, true);
+               ctx.arc(coord[0], coord[1], w, 0, Constants.TWOPI, true);
                ctx.closePath();
                ctx.fill();
                break;
@@ -186,7 +187,7 @@ define(function(require, exports, module) {
                                         Math.min(Math.ceil(rgb[1] * obj.style.color[1]),255) + "," +
                                         Math.min(Math.ceil(rgb[2] * obj.style.color[2]),255) + ")";
                ctx.beginPath();
-               ctx.arc(coord[0], coord[1], w, 0, Phoria.TWOPI, true);
+               ctx.arc(coord[0], coord[1], w, 0, Constants.TWOPI, true);
                ctx.closePath();
                ctx.fill();
                break;
