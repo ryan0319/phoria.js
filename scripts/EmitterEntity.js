@@ -8,6 +8,12 @@
 define(function(require, exports, module) {
   'use strict';
 
+  var Util = require('./Util'),
+      PositionalAspect = require('./PositionalAspect'),
+      Entity = require('./Entity'),
+      PhysicsEntity = require('./PhysicsEntity'),
+      BaseEntity = require('./BaseEntity');
+
    /**
     * Emitter is used to generate "particle" physics entities at a given rate per second with a flexible configuration
     * of velocity and position starting point. The emitter itself is not rendered, but exposes a style config that is
@@ -26,7 +32,7 @@ define(function(require, exports, module) {
       this.gravity = true;
       
       // default particle rendering style
-      var style = Phoria.Entity.createStyle();
+      var style = Entity.createStyle();
       style.drawmode = "point";
       style.shademode = "plain";
       style.geometrysortmode = "none";
@@ -56,7 +62,7 @@ define(function(require, exports, module) {
     *    lifetime: Number,           // lifetime in ms of the particle (zero for unlimited) - default 0
     *    lifetimeRnd: Number,        // lifetime randomness to apply - default 0
     *    gravity: boolean            // true to apply gravity to particles - default true
-    *    style: {...}                // particle rendering style (@see Phoria.Entity)
+    *    style: {...}                // particle rendering style (@see Entity)
     *    onParticle: function() {...}// particle create callback function
     * }
     */
@@ -76,13 +82,13 @@ define(function(require, exports, module) {
       if (desc.lifetime) e.lifetime = desc.lifetime;
       if (desc.lifetimeRnd) e.lifetimeRnd = desc.lifetimeRnd;
       if (desc.gravity !== undefined) e.gravity = desc.gravity;
-      if (desc.style) Phoria.Util.combine(e.style, desc.style);
+      if (desc.style) Util.combine(e.style, desc.style);
       if (desc.onParticle) e.onParticle(desc.onParticle);
       
       return e;
    };
    
-   Phoria.Util.extend(EmitterEntity, BaseEntity, {
+   Util.extend(EmitterEntity, BaseEntity, {
       // {Object} style description for the entity - merged with the default style as defined in the constructor
       style: null,
       
@@ -165,7 +171,7 @@ define(function(require, exports, module) {
                vel.z += (Math.random() * this.velocityRnd.z) - (this.velocityRnd.z * 0.5);
                
                // create particle directly - avoid overhead of the more friendly factory method
-               var particle = new Phoria.PhysicsEntity();
+               var particle = new PhysicsEntity();
                particle.position = pos;
                particle.points = [ pos ];
                particle.velocity = vel;
@@ -192,7 +198,7 @@ define(function(require, exports, module) {
          }
       }
    });
-   Phoria.Util.augment(EmitterEntity, Phoria.PositionalAspect);
+   Util.augment(EmitterEntity, PositionalAspect);
 
    module.exports = EmitterEntity;
 });

@@ -57,6 +57,13 @@ function onloadHandler()
       polygons: c.polygons
    });
    scene.graph.push(cube);
+   var cube2 = Phoria.Entity.create({
+      points: c.points,
+      edges: c.edges,
+      polygons: c.polygons
+   });
+   cube2.translateX(2);
+   scene.graph.push(cube2);
    scene.graph.push(new Phoria.DistantLight());
 
    var pause = false;
@@ -65,6 +72,7 @@ function onloadHandler()
       {
          // rotate local matrix of the cube
          cube.rotateY(0.5*Phoria.RADIANS);
+         cube.scale([1, 1.01, 1]);
          
          // execute the model view 3D pipeline and render the scene
          scene.modelView();

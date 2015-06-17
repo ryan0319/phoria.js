@@ -8,6 +8,13 @@
 define(function(require, exports, module) {
   'use strict';
 
+  var Util = require('./Util'),
+      GlMatrix = require('./GlMatrix'),
+      PositionalAspect = require('./PositionalAspect'),
+      Entity = require('./Entity');
+      // PhysicsEntity = require('./PhysicsEntity'),
+      // BaseEntity = require('./BaseEntity');
+
   /**
   * PhysicsEntity builds on the basic entity class to provide very basic physics support. The entity maintains
   * a position and a velocity that can be manipulated via constant and impulse forces. It also optionally
@@ -43,7 +50,7 @@ define(function(require, exports, module) {
   {
     // merge structures to generate entity
     var e = new PhysicsEntity();
-    Phoria.Entity.create(desc, e);
+    Entity.create(desc, e);
     if (desc.velocity) e.velocity = desc.velocity;
     if (desc.position) e.position = desc.position;
     if (desc.force) e._force = desc.force;
@@ -52,7 +59,7 @@ define(function(require, exports, module) {
     return e;
   };
 
-  Phoria.Util.extend(PhysicsEntity, Entity, {
+  Util.extend(PhysicsEntity, Entity, {
     // {xyz} current velocity of the entity
     velocity: null,
 
@@ -118,7 +125,7 @@ define(function(require, exports, module) {
       }
 
       // apply current velocity to position
-      this.translate(vec3.fromXYZ(this.velocity));
+      this.translate(GlMatrix.vec3.fromXYZ(this.velocity));
     },
 
     transformToScene: function transformToScene(scene, matLocal)
@@ -127,7 +134,7 @@ define(function(require, exports, module) {
       this.updatePosition(matLocal);
     }
   });
-  Phoria.Util.augment(PhysicsEntity, Phoria.PositionalAspect);
+  Util.augment(PhysicsEntity, PositionalAspect);
 
   module.exports = PhysicsEntity;
 });
