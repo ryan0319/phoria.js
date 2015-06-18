@@ -306,7 +306,8 @@ define(function(require, exports, module) {
   {
     for (var i=0; i<edges.length; i++)
     {
-      edges[i]._avz = (coords[ edges[i].a ][2] + coords[ edges[i].b ][2]) * 0.5;
+      if(coords[ edges[i].a ] && coords[ edges[i].b ])
+        edges[i]._avz = (coords[ edges[i].a ][2] + coords[ edges[i].b ][2]) * 0.5;
     }
     edges.sort(function sortEdgesZ(f1, f2) {
       return (f1._avz < f2._avz ? -1 : 1);
@@ -413,6 +414,71 @@ define(function(require, exports, module) {
         c++;
       }
       y -= vinc;
+    }
+
+    return {
+      points: points,
+      edges: edges,
+      polygons: polys
+    };
+  };
+
+  /**
+  * Generate the geometry for unit tours (donut)
+  * 
+  * @param scale   optional scaling factor
+  */
+  Util.generateTorus = function generateTorus(segs, hradius, tradius, scale, generateUVs)
+  {
+    var points = [], edges = [], polys = [],
+    circumference = 2 * Math.PI, angleSegs = circumference / segs;
+
+    for (var i=0,
+             j,
+             c=0,
+             xc=Math.cos(0),
+             yc=Math.sin(0),
+             P=GlMatrix.vec3.create(),
+             C=GlMatrix.vec3.create(),
+             W,
+             W0,
+             W1;
+             i<segs; 
+             i++,
+             xc=Math.cos(i * angleSegs),
+             yc=Math.sin(i * angleSegs))
+    {
+      P = GlMatrix.vec3.add(P, C, GlMatrix.vec3.fromValues(xc, yc, 0));
+      W = GlMatrix.vec3.create(), W0 = GlMatrix.vec3.create();
+      W0 = GlMatrix.vec3.subtract(W0, P, C);
+      W1 = GlMatrix.vec3.length(W0);
+      W = GlMatrix.vec3.divide(W, W0, GlMatrix.vec3.fromValues(W1, W1, W1));
+      for (j=0; j<segs; j++)
+      {
+        P = GlMatrix.vec3.add(P, C, GlMatrix.vec3.multiply(W0, W, GlMatrix.vec3.fromValues(hradius, hradius, hradius)));
+        P = GlMatrix.vec3.add(P, P, GlMatrix.vec3.multiply(W0, W, GlMatrix.vec3.fromValues(Math.cos(j * angleSegs) * tradius, Math.cos(j * angleSegs) * tradius, Math.cos(j * angleSegs) * tradius)));
+        P = GlMatrix.vec3.add(P, P, GlMatrix.vec3.fromValues(0, 0, tradius * Math.sin(j * angleSegs)));
+        points.push( GlMatrix.vec3.toXYZ(P) );
+
+        // edges
+        if (j !== 0) edges.push( {a:c, b:c-1} );
+        if (i !== 0) edges.push( {a:c, b:c-segs-1} );
+        if (i !== 0 && j !== 0)
+        {
+          // generate quad
+          var p = {vertices:[c-segs-1, c, c-1, c-segs-2]};
+          if (generateUVs)
+          {
+            var uvs = [(1/segs) * j, (1/vsegs) * (i-1),
+            (1/segs) * j, (1/vsegs) * i,
+            (1/segs) * (j-1), (1/vsegs) * i,
+            (1/segs) * (j-1), (1/vsegs) * (i-1)];
+            p.uvs = uvs;
+          }
+          polys.push(p);
+        }
+        c++;
+      }
     }
 
     return {
