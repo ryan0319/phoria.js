@@ -443,7 +443,7 @@ define(function(require, exports, module) {
              W,
              W0,
              W1;
-             i<segs; 
+             i<=segs; 
              i++,
              xc=Math.cos(i * angleSegs),
              yc=Math.sin(i * angleSegs))
@@ -453,7 +453,7 @@ define(function(require, exports, module) {
       W0 = GlMatrix.vec3.subtract(W0, P, C);
       W1 = GlMatrix.vec3.length(W0);
       W = GlMatrix.vec3.divide(W, W0, GlMatrix.vec3.fromValues(W1, W1, W1));
-      for (j=0; j<segs; j++)
+      for (j=0; j<=segs; j++)
       {
         P = GlMatrix.vec3.add(P, C, GlMatrix.vec3.multiply(W0, W, GlMatrix.vec3.fromValues(hradius, hradius, hradius)));
         P = GlMatrix.vec3.add(P, P, GlMatrix.vec3.multiply(W0, W, GlMatrix.vec3.fromValues(Math.cos(j * angleSegs) * tradius, Math.cos(j * angleSegs) * tradius, Math.cos(j * angleSegs) * tradius)));
